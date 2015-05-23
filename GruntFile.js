@@ -3,6 +3,15 @@ module.exports = function(grunt)
   grunt.initConfig({
     pkg:grunt.file.readJSON('package.json'),
 
+    imagemin: {
+      dynamic: {
+        files: [{
+          expand: true,
+          src: ['images/**/*.{png,jpg,gif}'],
+          dest: 'dist'
+        }]
+      },
+    },
     jade: {
       debug: {
         options: {
@@ -90,6 +99,7 @@ module.exports = function(grunt)
     },
   });
 
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -99,6 +109,6 @@ module.exports = function(grunt)
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-express-middleware');
   grunt.loadNpmTasks('grunt-open');
-  grunt.registerTask('default', ['jade', 'sass', 'jshint', 'concat', 'uglify']);
+  grunt.registerTask('default', ['imagemin', 'jade', 'sass', 'jshint', 'concat', 'uglify']);
   grunt.registerTask('server',['default', 'express', 'watch']);
 }
