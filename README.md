@@ -14,7 +14,9 @@ This is a simple project that will display the winner of a specific prize random
 
 ###Output
 
+The final output of the Random Winner example is:
 
+<img src="https://github.com/rahulnadella/Random_Winner/blob/master/output/output.gif" alt="Random Winner" width="400" height="400" />
 
 ###License
 
