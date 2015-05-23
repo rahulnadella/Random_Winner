@@ -35,7 +35,7 @@ module.exports = function(grunt)
       },
       js: {
         src: ['js/**/*.js'],
-        dest: 'dist/js/functions.js',
+        dest: 'dist/js/winner.js',
       },
       css: {
         src: ['dist/css/**/*.css'],
@@ -50,7 +50,7 @@ module.exports = function(grunt)
       },
       my_target: {
         files: {
-          'dist/js/functions.js': ['js/**/*.js']
+          'dist/js/winner.js': ['js/**/*.js']
         }
       },
     },
@@ -99,6 +99,6 @@ module.exports = function(grunt)
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-express-middleware');
   grunt.loadNpmTasks('grunt-open');
-  grunt.registerTask('default', ['imagemin', 'jade', 'sass', 'jshint', 'concat', 'uglify']);
+  grunt.registerTask('default', ['jade', 'sass', 'jshint', 'concat', 'uglify']);
   grunt.registerTask('server',['default', 'express', 'watch']);
 }
