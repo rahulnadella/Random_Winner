@@ -25,6 +25,7 @@
     "mozjpeg": "^4.0.0"
   },
   "devDependencies": {
+    "grunt-browserify": "^3.8.0",
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-cssmin": "^0.12.2",
     "grunt-contrib-imagemin": "^0.9.4",

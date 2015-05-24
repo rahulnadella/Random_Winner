@@ -1,32 +1,5 @@
-var possibleWinners = ['Adam Rasheed',
-                       'Alexander Barakhov',
-                       'Anton Kastritskiy',
-                       'Ayoub Moutil',
-                       'Bharat Modi',
-                       'Bryan Knight',
-                       'Chris D',
-                       'Daniyaal Khan',
-                       'David Vazquez',
-                       'Devan Farrell',
-                       'Finley',
-                       'Flores Kire',
-                       'Goran Petricevic',
-                       'Guillaume Bauer',
-                       'Hamza Shezad',
-                       'Honu Menehune',
-                       'Isak Aslund',
-                       'James Robb',
-                       'Jason C',
-                       'Junior Ferreira',
-                       'Kamil Szymczak',
-                       'Lee Keitel',
-                       'Mustafa Al-Sharifi',
-                       'Omer Oreg',
-                       'Sam Churney',
-                       'Tanseer Saji',
-                       'Viktor Kynchev',
-                       'Vishnu Neoelemento',
-                       'Yakir Reznik'];
+var fs = require('fs');
+var possibleWinners = fs.readFileSync('content.txt').toString().split("\n");
 
 // Generate a rondom number
 function winner(min, max) {

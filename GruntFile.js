@@ -38,12 +38,22 @@ module.exports = function(grunt)
     jshint: {
       all: ['js/**/*.js']
     },
+    browserify: {
+      client: {
+        src: ['js/winner.js'],
+        dest: 'dist/js/winner.js',
+        options: {
+          require: ['fs'],
+          export: ['fs'],
+        }
+      }
+    },
     concat: {
       options: {
         separator: ';',
       },
       js: {
-        src: ['js/**/*.js'],
+        src: ['js/app.js'],
         dest: 'dist/js/winner.js',
       },
       css: {
@@ -59,7 +69,7 @@ module.exports = function(grunt)
       },
       my_target: {
         files: {
-          'dist/js/winner.js': ['js/**/*.js']
+          'dist/js/winner.js': ['js/app.js']
         }
       },
     },
@@ -103,12 +113,13 @@ module.exports = function(grunt)
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-express-middleware');
   grunt.loadNpmTasks('grunt-open');
-  grunt.registerTask('default', ['imagemin', 'jade', 'sass', 'jshint', 'concat', 'uglify']);
+  grunt.registerTask('default', ['imagemin', 'jade', 'sass', 'browserify', 'concat', 'uglify']);
   grunt.registerTask('server',['default', 'express', 'watch']);
 }
