@@ -1,4 +1,6 @@
+// Retrieve the File System module
 var fs = require('fs');
+// Perform a synchronous read of the content.txt file and store into array
 var possibleWinners = fs.readFileSync('content.txt').toString().split("\n");
 
 // Generate a rondom number

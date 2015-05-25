@@ -1663,7 +1663,9 @@ module.exports = isArray || function (val) {
 
 },{}],5:[function(require,module,exports){
 (function (Buffer){
+// Retrieve the File System module
 
+// Perform a synchronous read of the content.txt file and store into array
 var possibleWinners = Buffer("QWRhbSBSYXNoZWVkCkFsZXhhbmRlciBCYXJha2hvdgpBbnRvbiBLYXN0cml0c2tpeQpBeW91YiBNb3V0aWwKQmhhcmF0IE1vZGkKQnJ5YW4gS25pZ2h0CkNocmlzIEQKRGFuaXlhYWwgS2hhbgpEYXZpZCBWYXpxdWV6CkRldmFuIEZhcnJlbGwKRmlubGV5CkZsb3JlcyBLaXJlCkdvcmFuIFBldHJpY2V2aWMKR3VpbGxhdW1lIEJhdWVyCkhhbXphIFNoZXphZApIb251IE1lbmVodW5lCklzYWsgQXNsdW5kCkphbWVzIFJvYmIKSmFzb24gQwpKdW5pb3IgRmVycmVpcmEKS2FtaWwgU3p5bWN6YWsKTGVlIEtlaXRlbApNdXN0YWZhIEFsLVNoYXJpZmkKT21lciBPcmVnClNhbSBDaHVybmV5ClRhbnNlZXIgU2FqaQpWaWt0b3IgS3luY2hldgpWaXNobnUgTmVvZWxlbWVudG8KWWFraXIgUmV6bmlrCg==","base64").toString().split("\n");
 
 // Generate a rondom number
