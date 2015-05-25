@@ -1662,19 +1662,114 @@ module.exports = isArray || function (val) {
 };
 
 },{}],5:[function(require,module,exports){
-(function (Buffer){
+// shim for using process in browser
+
+var process = module.exports = {};
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = setTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            currentQueue[queueIndex].run();
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    clearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        setTimeout(drainQueue, 0);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],6:[function(require,module,exports){
+(function (process,Buffer){
 // Retrieve the File System module
 
-// Perform a synchronous read of the content.txt file and store into array
-var possibleWinners = Buffer("QWRhbSBSYXNoZWVkCkFsZXhhbmRlciBCYXJha2hvdgpBbnRvbiBLYXN0cml0c2tpeQpBeW91YiBNb3V0aWwKQmhhcmF0IE1vZGkKQnJ5YW4gS25pZ2h0CkNocmlzIEQKRGFuaXlhYWwgS2hhbgpEYXZpZCBWYXpxdWV6CkRldmFuIEZhcnJlbGwKRmlubGV5CkZsb3JlcyBLaXJlCkdvcmFuIFBldHJpY2V2aWMKR3VpbGxhdW1lIEJhdWVyCkhhbXphIFNoZXphZApIb251IE1lbmVodW5lCklzYWsgQXNsdW5kCkphbWVzIFJvYmIKSmFzb24gQwpKdW5pb3IgRmVycmVpcmEKS2FtaWwgU3p5bWN6YWsKTGVlIEtlaXRlbApNdXN0YWZhIEFsLVNoYXJpZmkKT21lciBPcmVnClNhbSBDaHVybmV5ClRhbnNlZXIgU2FqaQpWaWt0b3IgS3luY2hldgpWaXNobnUgTmVvZWxlbWVudG8KWWFraXIgUmV6bmlrCg==","base64").toString().split("\n");
+
+// Perform a Asynchronous read of the content.txt file and store into array of possibleWinners
+process.nextTick(function(){(function (err, data) {
+    if (err)
+        throw err;
+    var possibleWinners = data.toString().split('\n');
+    document.querySelector('.winner-name').innerHTML = possibleWinners[winner(0, possibleWinners.length)];
+})(null,Buffer("QWRhbSBSYXNoZWVkCkFsZXhhbmRlciBCYXJha2hvdgpBbnRvbiBLYXN0cml0c2tpeQpBeW91YiBNb3V0aWwKQmhhcmF0IE1vZGkKQnJ5YW4gS25pZ2h0CkNocmlzIEQKRGFuaXlhYWwgS2hhbgpEYXZpZCBWYXpxdWV6CkRldmFuIEZhcnJlbGwKRmlubGV5CkZsb3JlcyBLaXJlCkdvcmFuIFBldHJpY2V2aWMKR3VpbGxhdW1lIEJhdWVyCkhhbXphIFNoZXphZApIb251IE1lbmVodW5lCklzYWsgQXNsdW5kCkphbWVzIFJvYmIKSmFzb24gQwpKdW5pb3IgRmVycmVpcmEKS2FtaWwgU3p5bWN6YWsKTGVlIEtlaXRlbApNdXN0YWZhIEFsLVNoYXJpZmkKT21lciBPcmVnClNhbSBDaHVybmV5ClRhbnNlZXIgU2FqaQpWaWt0b3IgS3luY2hldgpWaXNobnUgTmVvZWxlbWVudG8KWWFraXIgUmV6bmlrCg==","base64"))});
 
 // Generate a rondom number
 function winner(min, max) {
   return Math.floor(Math.random() * (max-min) + min);
 }
 
-//apply that number to the hmtl layout
-document.querySelector('.winner-name').innerHTML = possibleWinners[winner(0, possibleWinners.length)];
-
-}).call(this,require("buffer").Buffer)
-},{"buffer":1}]},{},[5]);
+}).call(this,require('_process'),require("buffer").Buffer)
+},{"_process":5,"buffer":1}]},{},[6]);
